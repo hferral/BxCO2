@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+  <div id="ultimoValor"></div>
+  <script>
+    fetch('URL_JSON_DE_GOOGLE_SHEETS')
+      .then(response => response.json())
+      .then(data => {
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: data.map(row => row.Timestamp),
+            datasets: [{
+              label: 'Temperatura',
+              data: data.map(row => row.Temperatura)
+            }]
+          }
+        });
+        document.getElementById("ultimoValor").innerHTML = 
+          `Último valor: ${data[data.length-1].Temperatura}°C`;
+      });
+  </script>
+</body>
+</html>
